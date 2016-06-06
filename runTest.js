@@ -67,7 +67,7 @@ var runTests = function(test,methodNames,option){
 		console.log('--------');
 		console.log('-->',name);
 		try{
-			console.log(member)			
+			console.log(member)
 			member();
 		}catch(error){
 			failed++;
@@ -103,3 +103,16 @@ var main = function(){
 };
 
 main();
+
+// var states = ["q1", "q2", "q3", "q4"]
+// var alphabets =  ["1", "0"]
+// var transtion = {
+// "q1" : {"0": ["q1"], "1": ["q1", "q2"]},
+// "q2" : {"0": ["q3"]},
+// "q3" : {"1": ["q4"]}
+// },
+// initialState ="q1"
+// finalStates = ["q4"]
+//
+// var input = "101010110"
+//
