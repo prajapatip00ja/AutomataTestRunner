@@ -1,40 +1,33 @@
 var _ = require("lodash")
 
-
 exports.nfaGenerator = function(tuple){
   var initialState = tuple.initialState;
   var finalStates = tuple.finalStates;
   var transtion = tuple.transtion;
 
   var nfa =  function(word) {
-    var fs = word.split("").reduce(function(pre,curr){
-        return states(pre,curr);
+    var fs = word.split("").reduce(function(previousState,currentElement){
+        return stateReducer(previousState,currentElement);
     },[initialState])
-    if(includesArray(finalStates,fs)){
-      return true
-    }else{
-      if(fs.some(hasEbslon)){
-        var state = states(fs,null)
-        return includesArray(finalStates,state)
-      }
-      return false
+    return includesArray(finalStates,fs) || (fs.some(hasEpsilon) && includesArray(finalStates,stateReducer(fs,null)))
+  }
+
+  var stateReducer = function(previousState,currentElement){
+    return _.flattenDeep(previousState.map(function(state){
+      return transtion[state] ? findState(state,currentElement) : ""
+    }))
+  }
+
+  var findState = function(previousState,currentElement){
+    if(hasEpsilon(previousState)){
+      var state = stateReducer(_.flattenDeep([transtion[previousState]["E"]]),currentElement);
+      return [transtion[previousState][currentElement],state]
     }
+    return currentElement ? transtion[previousState][currentElement] : previousState
   }
 
-  var states = function(pre,curr){
-    return _.flattenDeep(pre.map(function(ele){return transtion[ele] ? findState(ele,curr) : ""}))
-  }
-
-  var findState = function(pre,curr){
-    if(hasEbslon(pre)){
-      var state = states(_.flattenDeep([transtion[pre]["E"]]),curr);
-      return _.flattenDeep([transtion[pre][curr],state])
-    }
-    return curr ? transtion[pre][curr] : pre
-  }
-
-  var hasEbslon = function(pre){
-    return transtion[pre] && _.includes(Object.keys(transtion[pre]),"E");
+  var hasEpsilon = function(previousState){
+    return previousState && transtion[previousState] && _.includes(Object.keys(transtion[previousState]),"E");
   }
 
   return nfa;

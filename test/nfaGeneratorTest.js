@@ -31,7 +31,7 @@ describe("NfaGenerator accepts languages that is ending with 0",function(){
     nfa(input).should.equal(true)
   })
 
-  it("should not 11",function(){
+  it("should not accept 11",function(){
     var input = "11"
     var nfa = nfaGenerator(tuple1)
     nfa(input).should.not.equal(true)
@@ -73,11 +73,11 @@ var tuple3 = {
   initialState : "q1",
   finalStates : ["q4","q5"],
   transtion : {
-    "q1" : {"0":"","1":"","E":["q2","q3"]},
-    "q2" : {"1":"q4","0":""},
-    "q3" : {"0":"q5","1":""},
-    "q4" : {"0":"","1":"q2"},
-    "q5" : {"0":"q3","1":""}
+    "q1" : {"0":[],"1":[],"E":["q2","q3"]},
+    "q2" : {"1":["q4"],"0":[]},
+    "q3" : {"0":["q5"],"1":[]},
+    "q4" : {"0":[],"1":["q2"]},
+    "q5" : {"0":["q3"],"1":[]}
   }
 }
 
@@ -109,7 +109,7 @@ describe("NfaGenerator accepts languages whose had odd number of 0",function(){
 
 })
 
-describe("nfa_generator_with_epsolon",function(){
+describe("Nfa_generator_with_epsolon",function(){
 	it("should accept string with tuple_two_or_three_length",function(){
 		var tuple_two_or_three_length = {
 			transtion:{
@@ -186,6 +186,7 @@ describe("nfa_generator_with_epsolon",function(){
     	assert.isNotTrue(nfa_two_or_three_length("0000"));
     });
 })
+
 var tuple4 = {
   states : ["q1","q2"],
   alphabets : ["0","1"],
@@ -198,16 +199,33 @@ var tuple4 = {
 }
 describe("NfaGenerator accepts languages ",function(){
 
-  it("should accept 110",function(){
+  it("should accept 0",function(){
+    var input = "0"
+    var nfa = nfaGenerator(tuple4)
+    nfa(input).should.equal(true)
+  })
+
+  it("should accept 1",function(){
+    var input = "1"
+    var nfa = nfaGenerator(tuple4)
+    nfa(input).should.equal(true)
+  })
+
+  it("should accept 01",function(){
     var input = "01"
     var nfa = nfaGenerator(tuple4)
     nfa(input).should.equal(true)
   })
 
-  it("should not accept 10001",function(){
+  it("should accept empty",function(){
+    var input = ""
+    var nfa = nfaGenerator(tuple4)
+    nfa(input).should.equal(true)
+  })
+
+  it("should not accept 10",function(){
     var input = "10"
     var nfa = nfaGenerator(tuple4)
     nfa(input).should.not.equal(true)
   })
-
 })
