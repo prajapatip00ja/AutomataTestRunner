@@ -19,10 +19,6 @@ exports.nfaGenerator = function(tuple){
       }
       return false
     }
-
-    var efs = fs.some(hasEbslon) ? states(fs,null) : fs
-
-    return includesArray(finalStates,efs)
   }
 
   var states = function(pre,curr){
