@@ -81,7 +81,7 @@ var tuple3 = {
   }
 }
 
-describe("NfaGenerator accepts languages whose had odd number of 0",function(){
+describe("NfaGenerator accepts languages whose had odd continious of 0 or 1",function(){
 
   it("should accept 000",function(){
     var input = "000"
